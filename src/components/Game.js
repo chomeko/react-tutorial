@@ -11,6 +11,7 @@ class Game extends React.Component {
       history: [{
         squares: Array(9).fill(null)
       }],
+      stepNumber: 0,
       xIsNext: true,
     };
   }
@@ -18,7 +19,7 @@ class Game extends React.Component {
   handleClick(i) {
     //stateのhistoryを代入して
     const history = this.state.history;
-    //historyの1番最後を代入
+    //history（配列）の1番最後を代入
     const current = history[history.length - 1];
     //.slice() メソッドを使ってsquaresに、現在の配列のコピーを作成し代入
     const squares = current.squares.slice();
@@ -49,6 +50,18 @@ class Game extends React.Component {
     //決まってなければnullを代入
     //calculateWinner(this.state.squares)を現在の盤面の状態を見て（current）勝者を判別するに変更
     const winner = calculateWinner(current.squares);
+    //historyをmapにしてstepの初期値は０でmoveはなし。stepが１ならmoveも１で以下増えていく感じ
+    const moves = history.map((step, move) => {
+      //moveがあればmoveなければstart
+      const desc = move ? 'Go to move #' + move : 'Go to start';
+      return (
+        //ボタンをクリックしたらjumpToメソッド（moveを持たす）を渡す
+        //reactでリストを使う場合はkeyを持たす。それにはmoveを持たす。
+        <li key={move}>
+          <button onClick={() => this.jumpTo(move)}>{desc}</button>
+        </li>
+      );
+    });
     //statusを定義（Next Player:X）の部分のこと、書き換えできるように。
     let status;
     //nullの場合はfalseが入るのでelse 勝敗が決まっていたらwinnerにX、Oが入ってtrueになるから
@@ -70,7 +83,7 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <ol>{/* TODO */}</ol>
+          <ol>{moves}</ol>
         </div>
       </div>
     );
