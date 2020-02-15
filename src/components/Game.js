@@ -17,8 +17,8 @@ class Game extends React.Component {
   }
   //boardからgemに移動
   handleClick(i) {
-    //stateのhistoryを代入して
-    const history = this.state.history;
+    //history配列のインデックス番号0から次のstepNumber＋１（初期値が0のため）までを切り抜いて配列を代入
+    const history = this.state.history.slice(0, this.state.stepNumber + 1);
     //history（配列）の1番最後を代入
     const current = history[history.length - 1];
     //.slice() メソッドを使ってsquaresに、現在の配列のコピーを作成し代入
@@ -36,15 +36,26 @@ class Game extends React.Component {
       history: history.concat([{
         squares: squares
       }]),
+      //stepnumberに今の配列の数の値を与える
+      stepNumber: history.length,
       xIsNext: !this.state.xIsNext,
+    });
+  }
+
+  //stepNumberに現在のstepを上書きする
+  //xIsNextのとこは偶数だった場合はtrueにする
+  jumpTo(step) {
+    this.setState({
+      stepNumber: step,
+      xIsNext: (step % 2) === 0,
     });
   }
 
   render() {
     //stateのhistoryを代入して
     const history = this.state.history;
-    //historyの1番最後を代入
-    const current = history[history.length - 1];
+    //historyにステップナンバーを持たせる
+    const current = history[this.state.stepNumber];
     //画面のテキストをxIsNextの値（XかO）を表示
     //勝敗のことを指していて、もし勝敗が決まっていたらreturn squares[a];を代入
     //決まってなければnullを代入
