@@ -2,10 +2,20 @@ import React from 'react';
 import Square from './Square';
 
 class Board extends React.Component {
-  //レンダースクエアーメソッドを作ってSquareにvalueでi引数を渡す
+  //リフトアップする為boardにconstructor
+  //初期値にsquaresプロパティに９個のマスにnullが入ってる状態にする
+  constructor(props) {
+    super(props);
+    this.state = {
+      squares: Array(9).fill(null),
+    };
+  }
+
   //(i)はi番目って意味
+  //squareにコンストラクタで定義した現在の値を伝える
+  //これでsquareが現在のvalueプロパティを受け取れるようになる
   renderSquare(i) {
-    return <Square value={i}/>;
+    return <Square value={this.state.squares[i]}/>;
   }
 
   render() {
