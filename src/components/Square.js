@@ -1,23 +1,15 @@
 import React from 'react';
-
+//boardによって制御されたコンポーネントになった
 class Square extends React.Component {
-  //this.stateで初期値を保存する
-  //propsは親の事、今回の親はBoardになってる
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: null,
-    };
-  }
   render() {
     return (
-      //クリックしたらthis.setStateでvalueの値をXに書き換える
-      //stateの値が初期値からXになる
+      //クリックしたら親の(board)props.onClickイベントで関数を呼び出す
+      //stateの値が親から受け取ったvalueの値になる
       <button
         className="square"
-        onClick={() => this.setState({ value: 'X' })}
+        onClick={() => this.props.onClick()}
       >
-        {this.state.value}
+        {this.props.value}
       </button>
     );
   }
