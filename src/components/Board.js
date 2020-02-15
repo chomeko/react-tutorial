@@ -2,8 +2,10 @@ import React from 'react';
 import Square from './Square';
 
 class Board extends React.Component {
+  //レンダースクエアーメソッドを作ってSquareにvalueでi引数を渡す
+  //(i)はi番目って意味
   renderSquare(i) {
-    return <Square />;
+    return <Square value={i}/>;
   }
 
   render() {
